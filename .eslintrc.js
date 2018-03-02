@@ -30,6 +30,7 @@ module.exports = {
     'comma-spacing': 0,
     'keyword-spacing': 0,
     'no-extra-boolean-cast': 0,
-    'key-spacing': 0
+    'key-spacing': 0,
+    'no-multi-spaces': 0
   }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="homework">
-        <div class="header">
+        <div class="header" v-if="showHeader">
             <el-checkbox :indeterminate="isIndeterminate" v-model="showAll" @change="selectAll">全选</el-checkbox>
             <div style="margin-top: .1rem"></div>
             <el-checkbox-group v-model="checkedList" @change="handleCheckedListChange">
@@ -11,7 +11,7 @@
             <div style="margin-top: .1rem"></div>
         </div>
         <div class="content">
-            <div class="work-list" v-for="(work, index) in works" :key="index">
+            <div class="work-list" v-for="(work, index) in works" :key="index" @click="goForWork(work.hid)">
                 <el-tag type="success" size="mini">{{courses[work.course]}}</el-tag>
                 <span class="work-title">{{work.title}}</span>
                 <span class="work-time">{{work.time}}</span>
@@ -22,50 +22,24 @@
 </template>
 <script>
     export default {
+        props: {
+            showHeader: {
+                type: Boolean,
+                default: true
+            },
+            works: {
+                type: Array,
+                default: () => {
+                    return []
+                }
+            }
+        },
         data() {
             return {
                 showAll: false,
                 isIndeterminate: false,
                 checkedList: [],
-                courses: ['语文','数学','英语','物理','化学','生物','政治','历史','地理','信息'],
-                works:[
-                    {
-                        course: 0,
-                        title: '暑假作业',
-                        time: '2018-1-1',
-                        desc: '假期之前做完'
-                    },{
-                        course: 0,
-                        title: '暑假作业',
-                        time: '2018-1-1',
-                        desc: '假期之前做完'
-                    },{
-                        course: 1,
-                        title: '暑假作业',
-                        time: '2018-1-1',
-                        desc: '假期之前做完'
-                    },{
-                        course: 2,
-                        title: '暑假作业',
-                        time: '2018-1-1',
-                        desc: '假期之前做完'
-                    },{
-                        course: 3,
-                        title: '暑假作业',
-                        time: '2018-1-1',
-                        desc: '假期之前做完'
-                    },{
-                        course: 4,
-                        title: '暑假作业',
-                        time: '2018-1-1',
-                        desc: '假期之前做完'
-                    },{
-                        course: 5,
-                        title: '暑假作业',
-                        time: '2018-1-1',
-                        desc: '假期之前做完'
-                    }
-                ]
+                courses: ['语文','数学','英语','物理','化学','生物','政治','历史','地理','信息']
             }
         },
         methods: {
@@ -89,6 +63,9 @@
                     this.isIndeterminate = true
                     this.showAll = false
                 }
+            },
+            goForWork(id) {
+                this.$router.push('/homework/check?hid=' + id)
             }
         }
     }
@@ -102,14 +79,17 @@
         max-height: 100%
         margin-top: .1rem
         text-align: left
-        border-bottom: 1px solid #EBEEF5
         overflow-y: auto
-        .work-title
-            font-size: .18rem
-        .work-time
-            float: right
-            margin-right: .3rem
-        .work-desc
-            margin-top: .05rem
-            text-indent: .4rem
+        .work-list
+            margin-top: .1rem
+            border-bottom: 1px solid #EBEEF5
+            cursor: pointer
+            .work-title
+                font-size: .18rem
+            .work-time
+                float: right
+                margin-right: .3rem
+            .work-desc
+                margin-top: .05rem
+                text-indent: .4rem
 </style>

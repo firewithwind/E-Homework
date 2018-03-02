@@ -1,6 +1,9 @@
 <template>
-    <div class="homeworkall">
-        <home-work :works="works"></home-work>
+    <div class="remark">
+        <div class="header">
+            <el-button type="primary" size="mini" @click="createWork">新建作业</el-button>
+        </div>
+        <home-work :showHeader="false" :works="works"></home-work>
     </div>
 </template>
 <script>
@@ -11,20 +14,19 @@ export default {
     },
     data() {
         return {
-            uid: '',
-            works: []
+            works: [],
+            uid: ''
         }
     },
     created() {
-        this.getAllHomeWork()
+        this.getSelfHomework()
     },
     methods: {
-        getAllHomeWork() {
+        getSelfHomework() {
             this.request
-                .post('/mock/getAllHomeWork')
+                .post('/mock/getSelfHomework')
                 .send({
-                    uid: this.uid,
-                    courses: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                    uid: this.uid
                 })
                 .set('Content-Type', 'application/json')
                 .end((err, res) => {
@@ -35,11 +37,16 @@ export default {
                             this.works = data
                         }
                 })
+        },
+        createWork() {
+            this.$router.push('/homework/new')
         }
     }
 }
 </script>
-<style lang="stylus">
-div
-    font-size: 14px
+<style lang="stylus" scoped>
+.remark
+    text-align: left
+    .header
+        margin-bottom: .4rem
 </style>

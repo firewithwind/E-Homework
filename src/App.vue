@@ -54,7 +54,7 @@
                             <use xlink:href="#icon-shengpi"></use>
                         </svg>
                         <span>作业审批</span>
-                        <router-link to="/shenpi"></router-link>
+                        <router-link to="/remark"></router-link>
                     </el-menu-item>
                 </el-menu>
             </el-aside>
