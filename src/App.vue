@@ -6,7 +6,7 @@
             <div class="avator">
                 <img v-if="!avator" class="pic" src="./assets/avator.png">
                 <img v-else class="pic" :src="avator">
-                <span v-if="!!user">{{user}}</span>
+                <span v-if="!!user">{{user.name}}</span>
                 <div v-if="!user">
                 <a @click="login">登入</a>|<a>注册</a>
                 </div>
@@ -96,6 +96,7 @@ export default {
                         } else {
                             let data = JSON.parse(res.text).data
                             localStorage.user = data.uid
+                            this.user = data
                         }
                 })
     },
