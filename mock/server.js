@@ -144,6 +144,16 @@ app.use(async ctx => {
         }
     } else if(req.url === '/submitAnswer') {
         ctx.body = ''
+    } else if(req.url === '/getUserInfor') {
+        ctx.body = {
+            data: {
+                uid: 1,
+                name: '王王王',
+                school: '某某中学',
+                grade: '2017级',
+                class: '1班'
+            }
+        }
     }
 })
 

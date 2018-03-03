@@ -8,7 +8,7 @@
                 <img v-else class="pic" :src="avator">
                 <span v-if="!!user">{{user}}</span>
                 <div v-if="!user">
-                <a>登入</a>|<a>注册</a>
+                <a @click="login">登入</a>|<a>注册</a>
                 </div>
             </div>
         </el-header>
@@ -73,6 +73,34 @@ export default {
     return {
         user: '',
         avator: ''
+    }
+  },
+  created() {
+    this.getUserInfor()
+    if (!!localStorage.getItem('user')) {
+        let user = localStorage.getItem('user')
+        this.getUserInfor(user.id)
+    }
+  },
+  methods: {
+    getUserInfor(id) {
+        this.request
+                .post('/mock/getUserInfor')
+                .send({
+                    uid: id
+                })
+                .set('Content-Type', 'application/json')
+                .end((err, res) => {
+                        if(err) {
+                            this.$message.error(err.toString())
+                        } else {
+                            let data = JSON.parse(res.text).data
+                            localStorage.user = data.uid
+                        }
+                })
+    },
+    login() {
+        this.getUserInfor(1)
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="newhomework">
         <el-form v-model="infor">
-            <el-form-item label="作业题目" label-width="80px">
+            <el-form-item label="作业标题" label-width="80px">
                 <el-input v-model="infor.title"></el-input>
             </el-form-item>
             <el-form-item label="作业要求" label-width="80px">
@@ -10,9 +10,20 @@
             <el-form-item label="科目" label-width="80px">
                 <span>{{courseEnum[type]}}</span>
             </el-form-item>
+            <el-upload
+                accept="image/*"
+                :multiple="true"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                list-type="picture-card"
+                :on-preview="handlePictureCardPreview">
+              <i class="el-icon-plus"></i>
+            </el-upload>
             <div id="editorElem" style="text-align:left"></div>
             <el-button type="primary" @click="publish">发布</el-button>
         </el-form>
+        <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl">
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -26,7 +37,9 @@ export default {
             infor: {
                 title: '',
                 desc: ''
-            }
+            },
+            dialogImageUrl: '',
+            dialogVisible: false
         }
     },
     created() {
@@ -84,6 +97,10 @@ export default {
                             }
                     })
             }
+        },
+        handlePictureCardPreview(file) {
+            this.dialogImageUrl = file.url
+            this.dialogVisible = true
         }
     }
 }
@@ -95,4 +112,6 @@ export default {
         text-align: left
         .el-button
             margin-top: .1rem
+    .el-dialog
+        z-index: 150
 </style>

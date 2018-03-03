@@ -12,7 +12,7 @@
                       :on-error="uploadPicErr">
                 <img class="avator" :src="avator">
             </el-upload>
-            <h4 class="user-name">{{name}}</h4>
+            <h4 class="user-name">{{user.name}}</h4>
         </div>
         <el-form class="infor" ref="form" :model="user" label-width="80px">
             <el-form-item label="在读学校">
@@ -37,12 +37,35 @@ export default {
     data () {
         return {
             avator: require('../assets/avator.png'),
-            name: '刘连兴',
             user: {
-                school: '哈尔滨工业大学（威海）',
-                grade: '一年级',
-                class: '1班'
+                name: '',
+                school: '',
+                grade: '',
+                class: ''
             }
+        }
+    },
+    created() {
+        if(!localStorage.user) {
+            this.$message({
+                type: 'warning',
+                message: '您还未登入'
+            })
+        } else {
+            this.request
+                .post('/mock/getUserInfor')
+                .send({
+                    uid: localStorage.user
+                })
+                .set('Content-Type', 'application/json')
+                .end((err, res) => {
+                        if(err) {
+                            this.$message.error(err.toString())
+                        } else {
+                            let data = JSON.parse(res.text).data
+                            this.user = data
+                        }
+                })
         }
     },
     methods: {
